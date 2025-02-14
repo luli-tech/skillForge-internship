@@ -1,25 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { handleSearch } from "../../store/store";
 import { useSelector } from "react-redux";
 
 
-const SearchBar = ({ onNewSearch, setCurrentPage }) => {
+const SearchBar = ({ setCurrentPage }) => {
   const [query, setQuery] = useState("");
-  const dispatch = useDispatch();
   let { isDarkMode } = useSelector(state => state.photo)
-  const handleInputChange = (event) => {
-    setQuery(event.target.value);
-  };
-
+  const dispatch = useDispatch();
   const onSearch = (e) => {
     e.preventDefault()
     dispatch(handleSearch(query));
     setQuery("");
+    localStorage.removeItem('page')
     setCurrentPage(1)
-    onNewSearch();
-
   };
+  const handleInputChange = (event) => {
+    setQuery(event.target.value);
+  };
+  // useEffect(() => {
+  //   localStorage.removeItem('page');
+  // }, [])
 
   return (<>
     <form onSubmit={onSearch} className="flex items-center justify-center p-4">

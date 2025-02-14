@@ -9,7 +9,7 @@ const PHOTOS_PER_PAGE = 36;
 
 const PhotoGrids = ({ currentPage, setCurrentPage, handlePageChange }) => {
     const dispatch = useDispatch();
-    const [modal, setModal] = useState("");
+    const [modal, setModal] = useState('');
     const [close, setClose] = useState(false);
     const { photos, isLoading, error, isDarkMode } = useSelector(
         (state) => state.photo
@@ -27,6 +27,11 @@ const PhotoGrids = ({ currentPage, setCurrentPage, handlePageChange }) => {
     }, [dispatch]);
 
     useEffect(() => {
+        const savedPage = parseInt(localStorage.getItem('page'), 10) || 1;
+        setCurrentPage(savedPage);
+    }, [setCurrentPage]);
+
+    useEffect(() => {
         if (newSearch) {
             setNewSearch(false);
         }
@@ -37,10 +42,12 @@ const PhotoGrids = ({ currentPage, setCurrentPage, handlePageChange }) => {
     const currentPhotos = photos?.slice(startIndex, startIndex + PHOTOS_PER_PAGE);
 
     useEffect(() => {
-        if (photos) {
-            handlePageChange(1);
+        if (photos.length > 0 && currentPage !== 1) {
+            let saved = parseInt(localStorage.getItem('page'))
+            handlePageChange(saved);
         }
-    }, [])
+    }, [photos]);
+
     function handleAddToFavourite(photo) {
         dispatch(addToFavourite(photo));
     }

@@ -24,14 +24,15 @@ const Pagination = ({ currentPage, totalPages, onPageChange, newSearch }) => {
   // Handle page change with smooth scroll
   const handlePageChange = (page) => {
     onPageChange(page);
+    localStorage.setItem('page', page);
     window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to the top with smooth animation
   };
 
-  useEffect(() => {
-    if (newSearch) {
-      onPageChange(1);
-    }
-  }, [newSearch, onPageChange]);
+  // useEffect(() => {
+  //   if (newSearch) {
+  //     onPageChange(1);
+  //   }
+  // }, [newSearch, onPageChange]);
 
   return (
     <div className="flex justify-center items-center mt-6 gap-2 sm:gap-1">

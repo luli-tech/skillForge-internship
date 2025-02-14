@@ -2,7 +2,6 @@ import {
     configureStore,
     createAsyncThunk,
     createSlice,
-    current,
 } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import url from "../apis";
@@ -43,7 +42,7 @@ const photoSlice = createSlice({
     reducers: {
         addToFavourite(state, action) {
             let exist = state.favourite.find(
-                (photo) => photo.id == action.payload.id
+                (photo) => photo.id === action.payload.id
             );
             if (!exist) {
                 state.message = "Photo added to Favourite";
